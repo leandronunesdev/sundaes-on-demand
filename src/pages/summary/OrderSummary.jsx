@@ -1,7 +1,7 @@
-import React from 'react';
-import SummaryForm from './SummaryForm';
-import { useOrderDetails } from '../../contexts/OrderDetails';
-import { formatCurrency } from '../../utilities';
+import React from "react";
+import SummaryForm from "./SummaryForm";
+import { useOrderDetails } from "../../contexts/OrderDetails";
+import { formatCurrency } from "../../utilities";
 
 const OrderSummary = () => {
   const { totals, optionCounts } = useOrderDetails();
