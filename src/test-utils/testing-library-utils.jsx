@@ -7,5 +7,5 @@ const renderWithContext = (ui, options) =>
 // re-export everything
 export * from '@testing-library/react';
 
-//override render method
+// override render method
 export { renderWithContext as render };
