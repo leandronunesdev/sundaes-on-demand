@@ -6,7 +6,7 @@ import App from '../App';
 test('order phases for happy path', async () => {
   const user = userEvent.setup();
   // render app
-  render(<App />);
+  const { unmount } = render(<App />);
 
   // add ice cream scoops and toppings
 
@@ -64,12 +64,17 @@ test('order phases for happy path', async () => {
   await user.click(confirmButton);
 
   // confirm order number on confirmation page
+  const loading = screen.getByText(/loading/i);
+  expect(loading).toBeInTheDocument();
 
-  const orderNumber = screen.getByText('Your order number is', {
+  const orderNumber = await screen.findByText('Your order number is', {
     exact: false,
   });
 
   expect(orderNumber).toBeVisible();
+
+  const notLoading = screen.queryByText(/loading/i);
+  expect(notLoading).not.toBeInTheDocument();
 
   // click "new order" button on confirmation page
 
@@ -89,4 +94,5 @@ test('order phases for happy path', async () => {
   expect(toppingsSubtotal).toHaveTextContent('0.00');
 
   // do we need to await anything to avoid test errors?
+  unmount();
 });
