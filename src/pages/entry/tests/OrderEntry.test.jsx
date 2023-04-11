@@ -26,9 +26,9 @@ test('handles error for scoops and toppings routes', async () => {
   });
 });
 
-test('order sundae button disable when there s no scoop selected', async () => {
+test('order sundae button disabled when there s no scoop selected', async () => {
   const user = userEvent.setup();
-  render(<OrderEntry />);
+  render(<OrderEntry setOrderPhase={jest.fn()} />);
 
   const orderSundaeButton = screen.getByRole('button', {
     name: 'Order Sundae!',
@@ -43,6 +43,11 @@ test('order sundae button disable when there s no scoop selected', async () => {
   await user.type(vanillaInput, '1');
 
   expect(orderSundaeButton).toBeEnabled();
+
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, '0');
+
+  expect(orderSundaeButton).toBeDisabled();
 });
 
 test('validate scoop count value', async () => {
@@ -55,7 +60,21 @@ test('validate scoop count value', async () => {
 
   await user.type(vanillaInput, '-1');
 
+  expect(vanillaInput).toHaveClass('count-error');
+
   const scoopsSubtotal = screen.getByText('Scoops total: $', { exact: false });
 
   expect(scoopsSubtotal).toHaveTextContent('0.00');
+
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, '1.5');
+
+  expect(vanillaInput).toHaveClass('count-error');
+
+  expect(scoopsSubtotal).toHaveTextContent('0.00');
+
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, '0');
+
+  expect(vanillaInput).not.toHaveClass('count-error');
 });

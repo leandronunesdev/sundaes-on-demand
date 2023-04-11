@@ -128,10 +128,10 @@ test('happy path without toppings', async () => {
   const scoopsSubtotalSummary = screen.getByText('Scoops: $', { exact: false });
   expect(scoopsSubtotalSummary).toHaveTextContent('6.00');
 
-  const toppingsSubtotalSummary = screen.getByText('Toppings: $', {
+  const toppingsSubtotalSummary = screen.queryByText('Toppings: $', {
     exact: false,
   });
-  expect(toppingsSubtotalSummary).toHaveTextContent('0.00');
+  expect(toppingsSubtotalSummary).not.toBeInTheDocument();
 
   const cherriesSummary = screen.queryByText('Cherries');
   const mAndMsSummary = screen.queryByText('M&Ms');

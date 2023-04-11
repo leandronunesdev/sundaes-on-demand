@@ -15,6 +15,14 @@ export default function ScoopOptions({ name, imagePath }) {
       setError(true);
       return;
     }
+
+    if (e.target.value % 1 !== 0) {
+      console.log(parseInt(e.target.value));
+      setError(true);
+      updateItemCount(name, 0, 'scoops');
+      return;
+    }
+
     setError(false);
     updateItemCount(name, parseInt(e.target.value), 'scoops');
   };
@@ -30,7 +38,6 @@ export default function ScoopOptions({ name, imagePath }) {
         controlId={`${name}-count`}
         as={Row}
         style={{ marginTop: '10px' }}
-        className={error ? 'count-error' : 'test'}
       >
         <Form.Label column xs='6' style={{ textAlign: 'right' }}>
           {name}
@@ -41,6 +48,8 @@ export default function ScoopOptions({ name, imagePath }) {
             min={0}
             defaultValue={0}
             onChange={handleChange}
+            className={error ? 'count-error' : ''}
+            isInvalid={error}
           />
         </Col>
       </Form.Group>
